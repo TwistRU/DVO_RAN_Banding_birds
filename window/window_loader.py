@@ -3,6 +3,8 @@ from os import getcwd
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QFileDialog
 
+from utils import Data
+
 
 class LoaderWindow(QtWidgets.QMainWindow):
     STATUS_NOT_SELECTED = "Не выбрана"
@@ -19,10 +21,12 @@ class LoaderWindow(QtWidgets.QMainWindow):
             i_str = str(i)
             button = self.findChild(QtWidgets.QPushButton, 'load_button_' + i_str)
             self.buttons.append(button)
-            button.clicked.connect(lambda _, button_id=i: self.the_button_was_clicked(button_id))
+            button.clicked.connect(lambda _, button_id=i: self.load_button_clicked(button_id))
             self.status_labels.append(self.findChild(QtWidgets.QLabel, 'load_label_status_' + i_str))
-        self.buttons.append(self.findChild(QtWidgets.QPushButton, 'load_button_continue'))
-
+        button_continue = self.findChild(QtWidgets.QPushButton, 'load_button_continue')
+        self.buttons.append(button_continue)
+        button_continue.clicked.connect(self.continue_button_clicked)
+        if Data.IS_DEBUG: button_continue.setEnabled(True)
         self.show()
 
     def update(self):
@@ -39,7 +43,10 @@ class LoaderWindow(QtWidgets.QMainWindow):
                 label.setStyleSheet(LoaderWindow.CSS_NOT_SELECTED)
         self.buttons[3].setEnabled(all_files)
 
-    def the_button_was_clicked(self, button_id: int):
+    def continue_button_clicked(self):
+        self.close()
+
+    def load_button_clicked(self, button_id: int):
         tmp = QFileDialog.getOpenFileName(self, 'Выбор таблицы', getcwd(), "Excel файлы (*.xlsx *.xls)")
         if tmp[0].endswith("xlsx") or tmp[0].endswith("xls"):
             self.files[button_id - 1] = tmp[0]
