@@ -4,6 +4,7 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QFileDialog
 
 from utils import Data
+from window.window_main import MainWindow
 
 
 class LoaderWindow(QtWidgets.QMainWindow):
@@ -44,6 +45,7 @@ class LoaderWindow(QtWidgets.QMainWindow):
         self.buttons[3].setEnabled(all_files)
 
     def continue_button_clicked(self):
+        Data.current_window = MainWindow()
         self.close()
 
     def load_button_clicked(self, button_id: int):
