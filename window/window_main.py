@@ -1,9 +1,12 @@
 from os import getcwd
 
 from PyQt6 import QtWidgets, uic
+from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QListWidgetItem, QLabel, QWidget, QFrame, QPushButton, QFileDialog
 
 import mode_dict
+from utils import Data
+import window.window_loader
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -23,12 +26,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.about_desc: QLabel = self.findChild(QtWidgets.QLabel, 'about_label_desc')
         self.mode_qframe: QFrame = self.findChild(QtWidgets.QFrame, 'main_frame_widget')
         self.button_export: QPushButton = self.findChild(QtWidgets.QPushButton, 'main_button_export')
+        self.action_back: QAction = self.findChild(QAction, 'action_back')
         self.button_export.hide()
-        self.button_export.clicked.connect(self.export_clicked)
+        self.button_export.clicked.connect(lambda ignored: QFileDialog.getSaveFileName(self, 'Сохранение таблицы', getcwd(), "CSV файл (*.csv)"))
+        self.action_back.triggered.connect(self.action_back_clicked)
         self.show()
 
-    def export_clicked(self):
-        QFileDialog.getSaveFileName(self, 'Сохранение таблицы', getcwd(), "CSV файл (*.csv)")
+    def action_back_clicked(self):
+        Data.current_window = window.window_loader.LoaderWindow()
+        self.close()
 
     def selection_changed(self, new_selection):
         first_launch = self.selected_mode is None
