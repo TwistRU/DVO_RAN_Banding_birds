@@ -4,6 +4,7 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QFileDialog
 
 from utils import Data
+from window.dialog_load_tables import TableLoadDialog
 from window.window_main import MainWindow
 
 
@@ -18,6 +19,7 @@ class LoaderWindow(QtWidgets.QMainWindow):
         self.buttons = []
         self.status_labels = []
         self.files = [None for i in range(0, 4)]
+        self.load_dialog: TableLoadDialog | None = None
         for i in range(1, 4):
             i_str = str(i)
             button = self.findChild(QtWidgets.QPushButton, 'load_button_' + i_str)
@@ -44,8 +46,12 @@ class LoaderWindow(QtWidgets.QMainWindow):
                 label.setStyleSheet(LoaderWindow.CSS_NOT_SELECTED)
         self.buttons[3].setEnabled(all_files)
 
+    def update_progress(self, progress: int, errors: list[str]):
+        if self.load_dialog is not None: self.load_dialog.set_progress(progress, errors)
+
     def continue_button_clicked(self):
-        Data.current_window = MainWindow()
+        # self.load_dialog = TableLoadDialog()
+        Data.current_window = MainWindow() # Temp
         self.close()
 
     def load_button_clicked(self, button_id: int):
