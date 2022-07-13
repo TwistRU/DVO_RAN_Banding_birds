@@ -1,13 +1,14 @@
 from sqlite3 import connect
 
 from utils import Data
+import sqlite3
 
 
 def setup_DB():
     if Data.IS_DEBUG:
-        Data.conn = connect("test.db")
+        Data.conn = connect("test.db", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     else:
-        Data.conn = connect(":memory:")
+        Data.conn = connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     define_db_tables()
 
 def define_db_tables():

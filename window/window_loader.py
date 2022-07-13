@@ -51,7 +51,6 @@ class LoaderWindow(QtWidgets.QMainWindow):
         if self.load_dialog is not None: self.load_dialog.set_progress(progress, errors)
 
     def continue_button_clicked(self):
-        Data.current_window = MainWindow()
         load_tables_to_DB(self.files)
         # self.load_dialog = TableLoadDialog()
         Data.current_window = MainWindow() # Temp
