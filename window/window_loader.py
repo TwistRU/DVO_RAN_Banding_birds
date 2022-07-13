@@ -3,6 +3,7 @@ from os import getcwd
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QFileDialog
 
+from database.db_utils import load_tables_to_DB
 from utils import Data
 from window.dialog_load_tables import TableLoadDialog
 from window.window_main import MainWindow
@@ -50,6 +51,7 @@ class LoaderWindow(QtWidgets.QMainWindow):
         if self.load_dialog is not None: self.load_dialog.set_progress(progress, errors)
 
     def continue_button_clicked(self):
+        load_tables_to_DB(self.files)
         # self.load_dialog = TableLoadDialog()
         Data.current_window = MainWindow() # Temp
         self.close()
