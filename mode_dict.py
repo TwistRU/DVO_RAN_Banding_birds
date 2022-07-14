@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Type
 
 from PyQt6.QtWidgets import QWidget
 from widget.widget_morphology import MorphologyWidget
@@ -8,7 +9,7 @@ from widget.widget_in_seasonal_history_2 import InSeasonalHistory2Widget
 @dataclass
 class Mode:
     num: int
-    widget_obj: QWidget
+    widget_obj: Type[QWidget]
     title: str
     desc: str
 
