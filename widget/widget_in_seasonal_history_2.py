@@ -57,7 +57,7 @@ class InSeasonalHistory2Widget(QWidget):
                                          (self.var_select_columns[self.combo_box_var_select.currentIndex()][0],
                                           self.combo_box_var.currentText())])
 
-        self.label_found.setText(f'Найдено: {len(self.data)}')
+        self.label_found.setText(f'Найдено: {len(self.data) - 1}')
 
     def get_results(self):
         return self.data

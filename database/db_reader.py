@@ -1,4 +1,5 @@
 from utils import Data
+from database.db_dicts import dict_result_table
 
 
 def is_number(s):
@@ -41,8 +42,6 @@ def get_data_by_columns(pairs_col_val):
             if pair[0] != 'genus_and_species':
                 if is_number(pair[1]):
                     query += f" {pair[0]} = {str(pair[1])} and"
-                if pair[1] == 'None':
-                    query += f" {pair[0]} IS NULL and"
                 else:
                     query += f" {pair[0]} = '{pair[1]}' and"
             else:
@@ -55,6 +54,7 @@ def get_data_by_columns(pairs_col_val):
 
     table = cursor.execute(query)
     values = [list(i) for i in table]
+    values.insert(0, list(dict_result_table.values()))
 
     cursor.close()
     return values

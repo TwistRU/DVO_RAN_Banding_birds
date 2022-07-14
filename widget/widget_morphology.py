@@ -22,7 +22,7 @@ class MorphologyWidget(QWidget):
 
     def find_btn_clicked(self):
         self.data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText())])
-        self.label_found.setText(f'Найдено: {len(self.data)}')
+        self.label_found.setText(f'Найдено: {len(self.data) - 1}')
 
     def get_results(self):
         return self.data
