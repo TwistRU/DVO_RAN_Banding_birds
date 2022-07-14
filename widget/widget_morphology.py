@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton
-from database.db_reader import get_unique_column_values, get_data_by_columns
+from database.db_reader import get_unique_columns_values, get_data_by_columns
 from widget.widget_ext_combo_box import ExtendedComboBox
 
 
@@ -14,7 +14,8 @@ class MorphologyWidget(QWidget):
         self.push_button_find: QPushButton = self.findChild(QtWidgets.QPushButton, 'push_button_find')
 
         self.combo_box_species: ExtendedComboBox = self.findChild(ExtendedComboBox, 'combo_box_species')
-        self.combo_box_species.addItems(sorted(get_unique_column_values("species")))
+        self.combo_box_species.addItems(
+            sorted(get_unique_columns_values(["genus", "species"])))
 
         self.push_button_find.clicked.connect(self.find_btn_clicked)
 

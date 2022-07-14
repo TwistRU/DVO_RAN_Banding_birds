@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QComboBox
-from database.db_reader import get_unique_column_values, get_data_by_columns
+from database.db_reader import get_unique_columns_values, get_data_by_columns
 from widget.widget_ext_combo_box import ExtendedComboBox
 
 
@@ -18,7 +18,7 @@ class InSeasonalHistory2Widget(QWidget):
                                    ('age_EURING', 'Возраст EURING'),
                                    ('biotope_code', 'Код биотопа'),
                                    ('mesh_number', '№ сети')]
-        self.var_lists = [get_unique_column_values(i[0]) for i in self.var_select_columns]
+        self.var_lists = [get_unique_columns_values([i[0]]) for i in self.var_select_columns]
 
         self.label_found: QLabel = self.findChild(QtWidgets.QLabel, 'label_found')
         self.push_button_find: QPushButton = self.findChild(QtWidgets.QPushButton, 'push_button_find')
@@ -28,13 +28,15 @@ class InSeasonalHistory2Widget(QWidget):
         self.combo_box_gender: ExtendedComboBox = self.findChild(ExtendedComboBox, 'combo_box_gender')
         self.combo_box_var: ExtendedComboBox = self.findChild(ExtendedComboBox, 'combo_box_var')
 
-        self.combo_box_species.addItems(sorted(get_unique_column_values("species")))
-        self.combo_box_age.addItems(get_unique_column_values("age"))
-        self.combo_box_gender.addItems(sorted(get_unique_column_values("gender")))
+        self.combo_box_species.addItems(sorted(get_unique_columns_values(["genus", "species"])))
+        self.combo_box_age.addItems(get_unique_columns_values(["age"]))
+        self.combo_box_gender.addItems(sorted(get_unique_columns_values(["gender"])))
+        self.combo_box_var.addItems(sorted(get_unique_columns_values([self.var_select_columns[0][0]])))
 
         self.combo_box_species.setCurrentText("")
         self.combo_box_age.setCurrentText("")
         self.combo_box_gender.setCurrentText("")
+        self.combo_box_var.setCurrentText("")
 
         self.combo_box_var_select: QComboBox = self.findChild(QtWidgets.QComboBox, 'combo_box_var_select')
         self.combo_box_var_select.addItems([i[1] for i in self.var_select_columns])
@@ -48,7 +50,7 @@ class InSeasonalHistory2Widget(QWidget):
         self.combo_box_var.addItems(sorted(self.var_lists[ind]))
 
     def find_btn_clicked(self):
-        data = get_data_by_columns([("species", self.combo_box_species.currentText()),
+        data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText()),
                                     ("age", self.combo_box_age.currentText()),
                                     ("gender", self.combo_box_gender.currentText()),
                                     (self.var_select_columns[self.combo_box_var_select.currentIndex()][0],

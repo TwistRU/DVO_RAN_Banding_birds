@@ -9,10 +9,23 @@ def is_number(s):
         return False
 
 
-def get_unique_column_values(column):
+def get_unique_columns_values(columns):
     cursor = Data.conn.cursor()
-    column = cursor.execute(f"""SELECT DISTINCT {column} from RESULT_TABLE""")
-    values = [str(i[0]) for i in column]
+    query = "SELECT DISTINCT "
+    for i in columns:
+        query += f"{i}, "
+
+    result = cursor.execute(query[:len(query) - 2] + " from RESULT_TABLE")
+
+    values = []
+    for i in result:
+        s = ""
+        for j in i:
+            if j is not None:
+                s += f"{j} "
+        s = s[:len(s) - 1]
+        if s != "":
+            values.append(s)
 
     cursor.close()
     return values
@@ -25,15 +38,22 @@ def get_data_by_columns(pairs_col_val):
     for pair in pairs_col_val:
         if pair[1] != '':
             added = True
-            if is_number(pair[1]):
-                query += f" {pair[0]} = {str(pair[1])} and"
+            if pair[0] != 'genus_and_species':
+                if is_number(pair[1]):
+                    query += f" {pair[0]} = {str(pair[1])} and"
+                if pair[1] == 'None':
+                    query += f" {pair[0]} IS NULL and"
+                else:
+                    query += f" {pair[0]} = '{pair[1]}' and"
             else:
-                query += f" {pair[0]} = '{pair[1]}' and"
+                query += f" instr('{pair[1]}',genus) and instr('{pair[1]}',species) and"
 
     if added:
-        table = cursor.execute(query[:len(query) - 4])
+        query = query[:len(query) - 4]
     else:
-        table = cursor.execute(query[:len(query) - 6])
+        query = query[:len(query) - 6]
+
+    table = cursor.execute(query)
 
     values = [i for i in table]
 
