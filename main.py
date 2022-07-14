@@ -7,5 +7,6 @@ from window import window_loader
 app = QApplication([])
 Data.app = app
 setup_DB()
-app.setActiveWindow(window_loader.LoaderWindow())
+Data.active_window = window_loader.LoaderWindow()
+app.setActiveWindow(Data.active_window)
 app.exec()

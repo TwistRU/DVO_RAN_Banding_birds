@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>391</width>
-    <height>300</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,20 +17,23 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>90</y>
+     <y>100</y>
      <width>391</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>0</number>
+   </property>
    <property name="value">
-    <number>24</number>
+    <number>0</number>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="status_label">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>20</y>
+     <y>10</y>
      <width>391</width>
      <height>51</height>
     </rect>
@@ -43,50 +46,11 @@
     </font>
    </property>
    <property name="text">
-    <string>Загрузка таблиц...</string>
+    <string>Подготовка к загрузке таблиц...</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-  </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>199</y>
-     <width>391</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>389</width>
-      <height>99</height>
-     </rect>
-    </property>
-    <widget class="QLabel" name="error_label">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>391</width>
-       <height>341</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color:red;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
   </widget>
  </widget>
  <resources/>

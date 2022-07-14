@@ -1,9 +1,9 @@
-import xlrd, openpyxl
+import openpyxl
 
 from utils import Data
 
 
-def load_tables_to_DB(files: list) -> list:
+def load_tables_to_DB(files: list, progress_callback, max_progress_callback) -> list:
     """
     return Errors. If errors are empty, then load is successful.
     files[0] - Таблица результатов мечения
@@ -15,6 +15,7 @@ def load_tables_to_DB(files: list) -> list:
     columns_from_tagging_table = ["C", "D", "E", "F", "G", "H", "I", "J", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "AA", "AC", "AD", "AF", "AI", "AK", "AO", "AR", "AS", "CI"]
     result_table = openpyxl.open(files[0], data_only=True)
     result_sheet = result_table.active
+    max_progress_callback.emit (result_sheet.max_column)
     result_columns = [result_sheet[column_name] for column_name in columns_from_tagging_table]
     result = list()
     for i in range(len(result_sheet["A"])):
@@ -22,6 +23,7 @@ def load_tables_to_DB(files: list) -> list:
         for column in result_columns:
             tmp.append(column[i].value)
         result.append(tuple(tmp))
+        progress_callback.emit()
     Data.conn.executemany("""
     INSERT INTO RESULT_TABLE VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
     """, result[1:])
@@ -37,6 +39,7 @@ def load_tables_to_DB(files: list) -> list:
         for column in dates_columns:
             tmp.append(column[i].value)
         dates.append(tuple(tmp))
+        progress_callback.emit()
     Data.conn.executemany("""
     INSERT INTO DATES_OF_WORK VALUES (?, ?, ?);
     """, dates[1:])
@@ -52,6 +55,7 @@ def load_tables_to_DB(files: list) -> list:
         for column in coordinates_columns:
             tmp.append(column[i].value)
         coordinates.append(tuple(tmp))
+        progress_callback.emit()
     Data.conn.executemany("""
     INSERT INTO COORDINATES_OF_WORK VALUES (?, ?, ?, ?, ?, ?)
     """, coordinates[1:])

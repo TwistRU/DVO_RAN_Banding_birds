@@ -16,9 +16,9 @@ def setup_DB():
     sqlite3.register_converter("time", convert_time)
     sqlite3.register_adapter(datetime.time, adapt_time_iso)
     if Data.IS_DEBUG:
-        Data.conn = connect("test.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        Data.conn = connect("test.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
     else:
-        Data.conn = connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        Data.conn = connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
     define_db_tables()
 
 

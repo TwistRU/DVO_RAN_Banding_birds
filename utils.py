@@ -7,3 +7,4 @@ class Data:
     IS_DEBUG = True
     app: QApplication = None
     conn: Connection = None
+    active_window = None

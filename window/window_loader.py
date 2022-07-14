@@ -1,8 +1,8 @@
-from __future__ import annotations
-
+import threading
 from os import getcwd
 
 from PyQt6 import QtWidgets, uic
+from PyQt6.QtCore import QThread
 from PyQt6.QtWidgets import QFileDialog
 
 from database.db_utils import load_tables_to_DB
@@ -49,13 +49,10 @@ class LoaderWindow(QtWidgets.QMainWindow):
                 label.setStyleSheet(LoaderWindow.CSS_NOT_SELECTED)
         self.buttons[3].setEnabled(all_files)
 
-    def update_progress(self, progress: int, errors: list[str]):
-        if self.load_dialog is not None: self.load_dialog.set_progress(progress, errors)
-
     def continue_button_clicked(self):
-        load_tables_to_DB(self.files)
-        # self.load_dialog = TableLoadDialog()
-        Data.current_window = MainWindow() # Temp
+        self.load_dialog = TableLoadDialog(self)
+        self.load_dialog.exec()
+        Data.active_window = MainWindow()
         self.close()
 
     def load_button_clicked(self, button_id: int):
