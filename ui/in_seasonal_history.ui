@@ -60,16 +60,13 @@
                     </widget>
                 </item>
                 <item row="3" column="0">
-                    <widget class="QComboBox" name="combo_box_var_select"/>
-                </item>
-                <item row="4" column="0">
                     <widget class="QPushButton" name="push_button_find">
                         <property name="text">
                             <string>Найти</string>
                         </property>
                     </widget>
                 </item>
-                <item row="4" column="1">
+                <item row="3" column="1">
                     <widget class="QLabel" name="label_found">
                         <property name="text">
                             <string/>
@@ -84,9 +81,6 @@
                 </item>
                 <item row="2" column="1">
                     <widget class="ExtendedComboBox" name="combo_box_gender"/>
-                </item>
-                <item row="3" column="1">
-                    <widget class="ExtendedComboBox" name="combo_box_var"/>
                 </item>
             </layout>
         </widget>

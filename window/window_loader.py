@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from os import getcwd
 
 from PyQt6 import QtWidgets, uic
