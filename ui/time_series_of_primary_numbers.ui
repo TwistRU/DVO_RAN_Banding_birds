@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TimeSeriesOfPrimaryNumbers</class>
- <widget class="QWidget" name="TimeSeriesOfPrimaryNumbers">
+ <class>TimeSeriesOfPrimaryNumbersWidget</class>
+ <widget class="QWidget" name="TimeSeriesOfPrimaryNumbersWidget">
   <property name="enabled">
    <bool>true</bool>
   </property>
