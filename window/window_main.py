@@ -12,8 +12,6 @@ import window.window_loader
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    ABOUT_DEFAULT_TITLE = "Добро пожаловать в программу учета кольцевания птиц!"
-    ABOUT_DEFAULT_DESC = "Для начала работы выберите желаемую таблицу из меню слева"
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -41,6 +39,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def export_clicked(self):
         path = QFileDialog.getSaveFileName(self, 'Экспорт в CSV', getcwd(), "CSV файл (*.csv)")[0]
+        if len(path) == 0:
+            return
         widget = self.selected_widget
         try:
             arr: List[List[str]] = widget.get_results()
@@ -52,20 +52,15 @@ class MainWindow(QtWidgets.QMainWindow):
             QMessageBox.warning(self, "Экспорт в CSV", "В процессе выполнения операции произошли ошибки...")
 
     def selection_changed(self, new_selection):
-        first_launch = self.selected_mode is None
         self.selected_mode = mode_dict.MODE_DICT[new_selection.data(-1) - 1]
-        if first_launch:
-            self.about_header.setText(MainWindow.ABOUT_DEFAULT_TITLE)
-            self.about_desc.setText(MainWindow.ABOUT_DEFAULT_DESC)
-        else:
-            self.button_export.show()
-            self.about_header.setText(self.selected_mode.title)
-            self.about_desc.setText(self.selected_mode.desc)
-            if self.selected_mode.widget_obj is not None:
-                if len(self.mode_qframe.children()) > 1:
-                    child = self.mode_qframe.children()[1]
-                    self.mode_qframe.children().remove(child)
-                    child.setParent(None)
-                self.selected_widget = self.selected_mode.widget_obj()
-                self.mode_qframe.layout().addChildWidget(self.selected_widget)
-                self.selected_widget.show()
+        self.button_export.show()
+        self.about_header.setText(self.selected_mode.title)
+        self.about_desc.setText(self.selected_mode.desc)
+        if self.selected_mode.widget_obj is not None:
+            if len(self.mode_qframe.children()) > 1:
+                child = self.mode_qframe.children()[1]
+                self.mode_qframe.children().remove(child)
+                child.setParent(None)
+            self.selected_widget = self.selected_mode.widget_obj()
+            self.mode_qframe.layout().addChildWidget(self.selected_widget)
+            self.selected_widget.show()

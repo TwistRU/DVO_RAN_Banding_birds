@@ -18,10 +18,10 @@ class Mode:
 
 
 MODE_DICT = [
-    Mode(1, TimeSeriesOfPrimaryNumbersWidget, "Временные ряды перв. и отн. численностей", ""),
-    Mode(2, TimeSeriesOfAccumulatedNumbersWidget, "Временные ряды накопленной численности", ""),
-    Mode(3, None, "Внутрисезонная история отловов кольца", ""),
-    Mode(4, InSeasonalHistoryWidget, "Межсезонная история отловов кольца", ""),
-    Mode(5, InSeasonalHistory2Widget, "Внутрисезонная история отловов (на выбор)", ""),
-    Mode(6, MorphologyWidget, "Таблица морфологии", ""),
+    Mode(1, TimeSeriesOfPrimaryNumbersWidget, "Временные ряды перв. и отн. численностей", "(Здесь будет описание)"),
+    Mode(2, TimeSeriesOfAccumulatedNumbersWidget, "Временные ряды накопленной численности", "(Здесь будет описание)"),
+    Mode(3, None, "Внутрисезонная история отловов кольца", "(Здесь будет описание)"),
+    Mode(4, InSeasonalHistoryWidget, "Межсезонная история отловов кольца", "(Здесь будет описание)"),
+    Mode(5, InSeasonalHistory2Widget, "Внутрисезонная история отловов (на выбор)", "(Здесь будет описание)"),
+    Mode(6, MorphologyWidget, "Таблица морфологии", "(Здесь будет описание)"),
 ]
