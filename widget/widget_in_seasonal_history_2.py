@@ -9,6 +9,7 @@ class InSeasonalHistory2Widget(QWidget):
     def __init__(self):
         super(InSeasonalHistory2Widget, self).__init__()
         uic.loadUi('ui/in_seasonal_history_2.ui', self)
+        self.data = []
 
         self.var_select_columns = [('weight', 'Вес'),
                                    ('richness', 'Балл жирности'),
@@ -50,10 +51,13 @@ class InSeasonalHistory2Widget(QWidget):
         self.combo_box_var.addItems(sorted(self.var_lists[ind]))
 
     def find_btn_clicked(self):
-        data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText()),
-                                    ("age", self.combo_box_age.currentText()),
-                                    ("gender", self.combo_box_gender.currentText()),
-                                    (self.var_select_columns[self.combo_box_var_select.currentIndex()][0],
-                                     self.combo_box_var.currentText())])
+        self.data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText()),
+                                         ("age", self.combo_box_age.currentText()),
+                                         ("gender", self.combo_box_gender.currentText()),
+                                         (self.var_select_columns[self.combo_box_var_select.currentIndex()][0],
+                                          self.combo_box_var.currentText())])
 
-        self.label_found.setText(f'Найдено: {len(data)}')
+        self.label_found.setText(f'Найдено: {len(self.data)}')
+
+    def get_results(self):
+        return self.data

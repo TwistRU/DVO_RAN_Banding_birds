@@ -54,8 +54,7 @@ def get_data_by_columns(pairs_col_val):
         query = query[:len(query) - 6]
 
     table = cursor.execute(query)
-
-    values = [i for i in table]
+    values = [list(i) for i in table]
 
     cursor.close()
     return values

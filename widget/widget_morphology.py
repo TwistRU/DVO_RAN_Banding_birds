@@ -9,6 +9,7 @@ class MorphologyWidget(QWidget):
     def __init__(self):
         super(MorphologyWidget, self).__init__()
         uic.loadUi('ui/morphology.ui', self)
+        self.data = []
 
         self.label_found: QLabel = self.findChild(QtWidgets.QLabel, 'label_found')
         self.push_button_find: QPushButton = self.findChild(QtWidgets.QPushButton, 'push_button_find')
@@ -20,5 +21,8 @@ class MorphologyWidget(QWidget):
         self.push_button_find.clicked.connect(self.find_btn_clicked)
 
     def find_btn_clicked(self):
-        data = get_data_by_columns([("species", self.combo_box_species.currentText())])
-        self.label_found.setText(f'Найдено: {len(data)}')
+        self.data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText())])
+        self.label_found.setText(f'Найдено: {len(self.data)}')
+
+    def get_results(self):
+        return self.data
