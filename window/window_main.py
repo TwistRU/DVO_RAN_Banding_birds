@@ -1,8 +1,10 @@
 from os import getcwd
+import csv
+from typing import Type, List
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QListWidgetItem, QLabel, QWidget, QFrame, QPushButton, QFileDialog
+from PyQt6.QtWidgets import QListWidgetItem, QLabel, QWidget, QFrame, QPushButton, QFileDialog, QMessageBox
 
 import mode_dict
 from utils import Data
@@ -16,6 +18,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.selected_mode: mode_dict.Mode = None
+        self.selected_widget: Type[QWidget] = None
         uic.loadUi('ui/w_main.ui', self)
         self.mode_list: QtWidgets.QListWidget = self.findChild(QtWidgets.QListWidget, 'main_list_modes')
         for mode in mode_dict.MODE_DICT:
@@ -28,13 +31,25 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_export: QPushButton = self.findChild(QtWidgets.QPushButton, 'main_button_export')
         self.action_back: QAction = self.findChild(QAction, 'action_back')
         self.button_export.hide()
-        self.button_export.clicked.connect(lambda ignored: QFileDialog.getSaveFileName(self, 'Сохранение таблицы', getcwd(), "CSV файл (*.csv)"))
+        self.button_export.clicked.connect(self.export_clicked)
         self.action_back.triggered.connect(self.action_back_clicked)
         self.show()
 
     def action_back_clicked(self):
         Data.current_window = window.window_loader.LoaderWindow()
         self.close()
+
+    def export_clicked(self):
+        path = QFileDialog.getSaveFileName(self, 'Экспорт в CSV', getcwd(), "CSV файл (*.csv)")[0]
+        widget = self.selected_widget
+        try:
+            arr: List[List[str]] = widget.get_results()
+            with open(path, 'w') as file:
+                writer = csv.writer(file)
+                writer.writerows(arr)
+            QMessageBox.about(self, "Экспорт в CSV", "Операция завершена успешно")
+        except Exception:
+            QMessageBox.warning(self, "Экспорт в CSV", "В процессе выполнения операции произошли ошибки...")
 
     def selection_changed(self, new_selection):
         first_launch = self.selected_mode is None
@@ -51,6 +66,6 @@ class MainWindow(QtWidgets.QMainWindow):
                     child = self.mode_qframe.children()[1]
                     self.mode_qframe.children().remove(child)
                     child.setParent(None)
-                new_widget: QWidget = self.selected_mode.widget_obj()
-                self.mode_qframe.layout().addChildWidget(new_widget)
-                new_widget.show()
+                self.selected_widget = self.selected_mode.widget_obj()
+                self.mode_qframe.layout().addChildWidget(self.selected_widget)
+                self.selected_widget.show()
