@@ -15,7 +15,7 @@ def load_tables_to_DB(files: list, progress_callback, max_progress_callback) -> 
     columns_from_tagging_table = ["C", "D", "E", "F", "G", "H", "I", "J", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "AA", "AC", "AD", "AF", "AI", "AK", "AO", "AR", "AS", "CI"]
     result_table = openpyxl.open(files[0], data_only=True)
     result_sheet = result_table.active
-    max_progress_callback.emit (result_sheet.max_column)
+    max_progress_callback.emit (result_sheet.max_row)
     result_columns = [result_sheet[column_name] for column_name in columns_from_tagging_table]
     result = list()
     for i in range(len(result_sheet["A"])):
