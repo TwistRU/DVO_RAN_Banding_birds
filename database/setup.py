@@ -53,7 +53,7 @@ def define_db_tables():
         AK - check_time -               Время проверки\n
         AO - place_of_tagging -         Место мечения\n
         AR - latitude_of_tagging -      Широта мечения\n
-        AS - longitude_of_tagging -     Долгото мечения\n
+        AS - longitude_of_tagging -     Долгота мечения\n
         CI - molting_stage -            Стадия линьки\n
     DATES_OF_WORK
         A - place_of_tagging -          Место мечения\n

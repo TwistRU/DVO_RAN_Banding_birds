@@ -26,5 +26,5 @@ dict_result_table = {'ring': '№ кольца',
                      'check_time': 'Время проверки',
                      'place_of_tagging': 'Место мечения',
                      'latitude_of_tagging': 'Широта мечения',
-                     'longitude_of_tagging': 'Долгото мечения',
+                     'longitude_of_tagging': 'Долгота мечения',
                      'molting_stage': 'Стадия линьки'}
