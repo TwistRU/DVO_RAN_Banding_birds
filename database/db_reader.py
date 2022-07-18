@@ -18,7 +18,7 @@ def get_unique_columns_values(columns):
 
     result = cursor.execute(query[:len(query) - 2] + " from RESULT_TABLE")
 
-    values = []
+    values = set()
     for i in result:
         s = ""
         for j in i:
@@ -26,10 +26,10 @@ def get_unique_columns_values(columns):
                 s += f"{j} "
         s = s[:len(s) - 1]
         if s != "":
-            values.append(s)
+            values.add(s)
 
     cursor.close()
-    return values
+    return list(values)
 
 
 def get_data_by_columns(pairs_col_val):
