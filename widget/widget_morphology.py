@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton
-from database.db_reader import get_unique_columns_values, get_data_by_columns
+from database.db_reader import get_unique_columns_values, morphology_selector
 from widget.widget_ext_combo_box import ExtendedComboBox
 
 
@@ -21,7 +21,7 @@ class MorphologyWidget(QWidget):
         self.push_button_find.clicked.connect(self.find_btn_clicked)
 
     def find_btn_clicked(self):
-        self.data = get_data_by_columns([("genus_and_species", self.combo_box_species.currentText())])
+        self.data = morphology_selector(self.combo_box_species.currentText())
         self.label_found.setText(f'Найдено: {len(self.data) - 1}')
 
     def get_results(self):

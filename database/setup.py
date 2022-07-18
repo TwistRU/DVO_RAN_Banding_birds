@@ -46,7 +46,7 @@ def define_db_tables():
         S - muscle -                    Балл мышцы\n
         T - weight -                    Вес\n
         U - beak_from_forehead -        Клюв от лба\n
-        V - beak_from_nostril -         Ключ от ноздри\n
+        V - beak_from_nostril -         Клюв от ноздри\n
         W - wing_min -                  Крыло min\n
         X - wing_max -                  Крыло max\n
         Y - tarsus -                    Цевка\n

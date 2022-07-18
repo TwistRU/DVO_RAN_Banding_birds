@@ -58,3 +58,22 @@ def get_data_by_columns(pairs_col_val):
 
     cursor.close()
     return values
+
+
+def morphology_selector(genus_and_species):
+    columns = ['№ кольца', 'Год отлова', 'Пол', 'Возраст EURING', '% пневматизации', 'Вес', 'Клюв от лба',
+               'Клюв от ноздри', 'Крыло min', 'Крыло max', 'Цевка', 'Хвост', 'Длина головы', '№ сетки']
+
+    query = "SELECT ring, strftime('%Y', date_of_capture_in_season) as year_of_capture, " \
+            "gender, age_EURING, pneumatization, weight, beak_from_forehead, beak_from_nostril, " \
+            "wing_min, wing_max, tarsus, tail, head_length, mesh_number FROM RESULT_TABLE " \
+            f"WHERE instr('{genus_and_species}', genus) AND instr('{genus_and_species}', species)"
+
+    cursor = Data.conn.cursor()
+
+    table = cursor.execute(query)
+    values = [list(i) for i in table]
+    values.insert(0, columns)
+
+    cursor.close()
+    return values
