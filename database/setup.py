@@ -17,9 +17,12 @@ def setup_DB() -> bool:
     sqlite3.register_adapter(datetime.time, adapt_time_iso)
     Data.conn = connect("database.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
                         check_same_thread=False)
-    exists = Data.conn.execute("""
-    SELECT COUNT(1) FROM RESULT_TABLE;
-    """).fetchone()[0] > 0
+    try:
+        exists = Data.conn.execute("""
+        SELECT COUNT(1) FROM RESULT_TABLE;
+        """).fetchone()[0] > 0
+    except:
+        exists = False
     if not exists: define_db_tables()
     return exists
 
