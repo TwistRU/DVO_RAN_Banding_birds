@@ -12,14 +12,16 @@ def convert_time(val: str) -> datetime.time:
     return datetime.time.fromisoformat(val)
 
 
-def setup_DB():
+def setup_DB() -> bool:
     sqlite3.register_converter("time", convert_time)
     sqlite3.register_adapter(datetime.time, adapt_time_iso)
-    if Data.IS_DEBUG:
-        Data.conn = connect("test.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
-    else:
-        Data.conn = connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
-    define_db_tables()
+    Data.conn = connect("database.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
+                        check_same_thread=False)
+    exists = Data.conn.execute("""
+    SELECT COUNT(1) FROM RESULT_TABLE;
+    """).fetchone()[0] > 0
+    if not exists: define_db_tables()
+    return exists
 
 
 def define_db_tables():

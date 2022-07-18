@@ -7,6 +7,7 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QListWidgetItem, QLabel, QWidget, QFrame, QPushButton, QFileDialog, QMessageBox
 
 import mode_dict
+from database.setup import define_db_tables
 from utils import Data
 import window.window_loader
 
@@ -34,6 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def action_back_clicked(self):
+        define_db_tables()
         Data.current_window = window.window_loader.LoaderWindow()
         self.close()
 
