@@ -66,8 +66,10 @@ def morphology_selector(genus_and_species):
 
     query = "SELECT ring, strftime('%Y', date_of_capture_in_season) as year_of_capture, " \
             "gender, age_EURING, pneumatization, weight, beak_from_forehead, beak_from_nostril, " \
-            "wing_min, wing_max, tarsus, tail, head_length, mesh_number FROM RESULT_TABLE " \
-            f"WHERE instr('{genus_and_species}', genus) AND instr('{genus_and_species}', species)"
+            "wing_min, wing_max, tarsus, tail, head_length, mesh_number FROM RESULT_TABLE"
+
+    if genus_and_species != "":
+        query += f" WHERE instr('{genus_and_species}', genus) AND instr('{genus_and_species}', species)"
 
     cursor = Data.conn.cursor()
 
